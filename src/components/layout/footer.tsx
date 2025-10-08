@@ -16,8 +16,7 @@ export default function Footer() {
           <div className="flex flex-col items-center">
             <h3 className="font-headline text-lg font-semibold">Contact Us</h3>
             <div className="mt-4 space-y-2 text-sm text-center">
-              <p><a href="mailto:example@trad.co.ke" className="hover:text-primary">example@trad.co.ke</a></p>
-              <p>+254 712 345 678</p>
+              <p><a href="mailto:info@trad.co.ke" className="hover:text-primary">info@trad.co.ke</a></p>
             </div>
           </div>
           <div className="flex flex-col items-center md:items-end">

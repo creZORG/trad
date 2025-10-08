@@ -14,11 +14,11 @@ const faqItems = [
   },
   {
     question: "How can I buy $TRAD?",
-    answer: "$TRAD will be available for purchase during our Token Generation Event (TGE) in Q4 2025. Further details on exchange listings will be announced later.",
+    answer: "$TRAD will be available for purchase during our upcoming Token Generation Event (TGE). Further details on exchange listings will be announced soon.",
   },
   {
     question: "What is the total supply of $TRAD?",
-    answer: "The total supply and tokenomics are detailed in our official whitepaper, available for download on this page.",
+    answer: "The total supply and tokenomics are detailed in our official whitepaper, which will be available for download soon.",
   },
 ];
 
@@ -34,7 +34,7 @@ export default function WhitepaperSection() {
             <p className="mt-4 text-lg leading-8 text-muted-foreground">
               Dive deeper into our technology, vision, and tokenomics.
             </p>
-            <Button size="lg" className="mt-8">
+            <Button size="lg" className="mt-8" disabled>
               <Download className="mr-2 h-5 w-5" />
               Download Whitepaper
             </Button>
