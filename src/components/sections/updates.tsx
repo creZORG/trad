@@ -6,17 +6,17 @@ import { Separator } from "@/components/ui/separator";
 const announcements = [
   {
     title: "Whitepaper v1.0 Released",
-    date: "October 15, 2025",
+    date: "Coming Soon",
     description: "Our comprehensive whitepaper is now available for download.",
   },
   {
     title: "Partnership with Luna Industries",
-    date: "October 1, 2025",
+    date: "Recently",
     description: "We are excited to announce our strategic partnership to accelerate development.",
   },
   {
     title: "Project TradCoin Announcement",
-    date: "September 20, 2025",
+    date: "Recently",
     description: "The beginning of a new era in digital finance starts now.",
   },
 ];

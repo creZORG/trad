@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import CountdownTimer from "@/components/ui/countdown-timer";
 
 export default function HeroSection() {
   return (
@@ -15,8 +14,7 @@ export default function HeroSection() {
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4">
           <div className="mb-6">
-            <h3 className="mb-4 text-lg font-medium uppercase tracking-widest text-primary">TGE Countdown</h3>
-            <CountdownTimer />
+            <h3 className="mb-4 text-lg font-medium uppercase tracking-widest text-primary">Launching Soon</h3>
           </div>
           <a href="#about">
             <Button size="lg" className="text-lg">

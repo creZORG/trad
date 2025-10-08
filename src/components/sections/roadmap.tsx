@@ -1,22 +1,22 @@
 const milestones = [
   {
-    quarter: "Q4 2025",
-    title: "TGE Launch",
+    quarter: "Phase 1",
+    title: "Project Foundation",
     description: "The official Token Generation Event for $TRAD, marking our public launch."
   },
   {
-    quarter: "Q1 2026",
-    title: "Wallet Connection",
+    quarter: "Phase 2",
+    title: "Ecosystem Growth",
     description: "Integration with leading web3 wallets for seamless token management."
   },
   {
-    quarter: "Q2 2026",
-    title: "Staking & Governance",
+    quarter: "Phase 3",
+    title: "Community & Governance",
     description: "Launch of staking protocols and the first governance proposals."
   },
   {
-    quarter: "Q3 2026",
-    title: "Exchange Listings",
+    quarter: "Phase 4",
+    title: "Expansion",
     description: "Securing listings on major centralized and decentralized exchanges."
   },
 ];
