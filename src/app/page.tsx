@@ -11,7 +11,7 @@ import BackedBySection from "@/components/sections/backed-by";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground overflow-hidden">
       <Header />
       <main className="flex-1">
         <HeroSection />
