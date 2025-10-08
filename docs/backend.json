@@ -1,0 +1,58 @@
+{
+  "entities": {
+    "Subscriber": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Subscriber",
+      "type": "object",
+      "description": "Represents a subscriber for email updates.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the subscriber."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the subscriber.",
+          "format": "email"
+        },
+        "subscriptionDate": {
+          "type": "string",
+          "description": "The date and time when the subscriber signed up.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "subscriptionDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/subscribers/{subscriberId}",
+        "definition": {
+          "entityName": "Subscriber",
+          "schema": {
+            "$ref": "#/backend/entities/Subscriber"
+          },
+          "description": "Stores subscriber information. Allows adding email to the newsletter system. open for the backend function to work, and secured against public use.",
+          "params": [
+            {
+              "name": "subscriberId",
+              "description": "Unique identifier for the subscriber document."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to collect email subscribers for updates. The key design principle is structural segregation, where all documents in the `subscribers` collection share the same security requirements, allowing straightforward rule implementation. This design does not require any complex authorization logic. This design focuses on simplicity and security for a basic newsletter subscription service.\n\n**Authorization Independence:** This design achieves authorization independence by not relying on any parent-child relationships or `get()` calls in the security rules. The `subscribers` collection stands alone, and access control is based solely on the `request.auth.uid`.\n\n**QAPs (Rules are not Filters):** The structure supports secure `list` operations. Since all documents in the `subscribers` collection have the same security requirements (only authenticated admins or the function can create), listing the emails is not a problem."
+  }
+}

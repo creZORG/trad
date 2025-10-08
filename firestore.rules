@@ -1,0 +1,48 @@
+/**
+ * @fileoverview Firestore Security Rules for the email subscription service.
+ *
+ * Core Philosophy:
+ * This ruleset prioritizes security while allowing for easy data collection for email subscriptions.
+ * Only authenticated users can create, update, or delete subscriber documents.
+ * Read access is public to facilitate data collection and display, but write access is restricted to authenticated users for data integrity.
+ *
+ * Data Structure:
+ * All subscriber data is stored under the `/subscribers/{subscriberId}` path.
+ *
+ * Key Security Decisions:
+ * - Public Read Access: The `get` and `list` operations are open to everyone to facilitate email subscription.
+ * - Authenticated User Required: Only authenticated users can create, update, or delete subscriber documents.
+ * - No User Listing: Listing all users is not permitted. Only subscribers are managed.
+ * - Simplicity: The rules are kept simple to facilitate maintainability.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Manages subscriber information for email updates.
+     * @path /subscribers/{subscriberId}
+     * @allow (create) authenticated user can create subscriber document
+     * @allow (get, list) anyone can get and list subscriber documents
+     * @deny (create) unauthenticated user cannot create subscriber document
+     * @deny (update, delete) unauthenticated user cannot update or delete subscriber document
+     * @principle Allows authenticated users to create, update, and delete subscriber documents; allows anyone to read subscriber documents.
+     */
+    match /subscribers/{subscriberId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    // --- Helper Functions ---
+
+    /**
+     * @description Checks if the user is signed in.
+     * @return {bool} True if the user is signed in, false otherwise.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+  }
+}
