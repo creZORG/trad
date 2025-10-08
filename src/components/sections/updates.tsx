@@ -1,7 +1,16 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
+import { addDocumentNonBlocking, useFirestore } from "@/firebase";
+import { collection } from "firebase/firestore";
 
 const announcements = [
   {
@@ -21,7 +30,45 @@ const announcements = [
   },
 ];
 
+const newsletterFormSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address." }),
+});
+
 export default function UpdatesSection() {
+  const { toast } = useToast();
+  const firestore = useFirestore();
+
+  const form = useForm<z.infer<typeof newsletterFormSchema>>({
+    resolver: zodResolver(newsletterFormSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof newsletterFormSchema>) {
+    if (!firestore) return;
+    try {
+      const subscribersCollection = collection(firestore, "subscribers");
+      await addDocumentNonBlocking(subscribersCollection, {
+        email: values.email,
+        subscriptionDate: new Date().toISOString(),
+      });
+
+      toast({
+        title: "Subscribed!",
+        description: "You've been added to our mailing list.",
+      });
+      form.reset();
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your subscription. Please try again.",
+      });
+    }
+  }
+
   return (
     <section id="updates" className="py-24 sm:py-32 bg-card">
       <div className="container mx-auto px-4">
@@ -53,10 +100,26 @@ export default function UpdatesSection() {
               </CardHeader>
               <CardContent>
                 <p className="mb-4 text-muted-foreground">Get the latest news and updates delivered to your inbox.</p>
-                <form className="flex flex-col space-y-4">
-                  <Input type="email" placeholder="Enter your email" />
-                  <Button type="submit">Subscribe</Button>
-                </form>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="sr-only">Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="Enter your email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                      {form.formState.isSubmitting ? "Subscribing..." : "Subscribe"}
+                    </Button>
+                  </form>
+                </Form>
               </CardContent>
             </Card>
           </div>
